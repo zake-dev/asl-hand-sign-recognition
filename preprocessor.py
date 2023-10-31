@@ -1,5 +1,6 @@
 import cv2
 from sobel_canny_detector import *
+import random
 
 # Crop outline of image by padding size
 def crop_image(image, padding=8):
@@ -11,8 +12,8 @@ def crop_image(image, padding=8):
   return cropped
 
 # List up image set to be loaded
-sign_type = 'A/A'
-filenames = ['200', '509', '747', '1000', '1797', '2249', '2995']
+sign_type = 'K/K'
+filenames = [str(random.randint(1, 3000)) for _ in range(10)]
 
 # Preprocess all loaded images in list
 for filename in filenames:
@@ -25,9 +26,9 @@ for filename in filenames:
 
   # Results
   filepath = './preprocessed/sobel-canny-combination/'
-  cv2.imwrite(filepath + filename + "_Sobel-Only.jpg", sobel)
-  cv2.imwrite(filepath + filename + "_Sobel-Canny_Combination.jpg", sobel_canny)
-  cv2.imwrite(filepath + filename + "_Original.jpg", image)
+  # cv2.imwrite(filepath + filename + "_Sobel-Only.jpg", sobel)
+  # cv2.imwrite(filepath + filename + "_Sobel-Canny_Combination.jpg", sobel_canny)
+  # cv2.imwrite(filepath + filename + "_Original.jpg", image)
   cv2.imshow('Sobel Only', sobel)
   cv2.imshow('Sobel+Canny', sobel_canny)
   cv2.imshow('Original', original)
