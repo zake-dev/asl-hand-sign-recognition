@@ -12,26 +12,19 @@ def crop_image(image, padding=8):
   return cropped
 
 # List up image set to be loaded
-sign_type = 'K/K'
-filenames = [str(random.randint(1, 3000)) for _ in range(10)]
+sign_types = ['A', 'B', 'C', 'D', 'del', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'nothing', 'O', 'P', 'Q', 'R', 'S', 'space', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'] 
 
 # Preprocess all loaded images in list
-for filename in filenames:
-  image = cv2.imread("./images/asl_alphabet_train/" + sign_type + filename + ".jpg")
-  original = image.copy()
-  cropped = crop_image(image)
+print("Start Preprocessing...")
+for sign_type in sign_types:
+  for i in range(1, 3001):
+    image = cv2.imread(f'./images/asl_alphabet_train/{sign_type}/{sign_type}{i}.jpg')
+    cropped = crop_image(image)
 
-  # Apply specific technique
-  sobel, sobel_canny = apply_sobel_canny_detection(cropped)
+    # Apply specific technique
+    sobel, sobel_canny = apply_sobel_canny_detection(cropped)
 
-  # Results
-  filepath = './preprocessed/sobel-canny-combination/'
-  # cv2.imwrite(filepath + filename + "_Sobel-Only.jpg", sobel)
-  # cv2.imwrite(filepath + filename + "_Sobel-Canny_Combination.jpg", sobel_canny)
-  # cv2.imwrite(filepath + filename + "_Original.jpg", image)
-  cv2.imshow('Sobel Only', sobel)
-  cv2.imshow('Sobel+Canny', sobel_canny)
-  cv2.imshow('Original', original)
-  cv2.waitKey(0)
-
-cv2.destroyAllWindows()  
+    # Results
+    filepath = './preprocessed/sobel-canny-combination/'
+    cv2.imwrite(f'{filepath}{sign_type}/{sign_type}{i}.jpg', sobel_canny)
+    print(f'{sign_type} {i}/3000')
